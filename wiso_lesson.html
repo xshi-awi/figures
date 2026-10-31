@@ -211,8 +211,8 @@ input:focus-visible, a:focus-visible { outline:2px solid var(--zm); outline-offs
 <figure><svg id="scale" viewBox="0 0 760 270" role="img" aria-label="箱子越大，水汽落成雨的比例和箱内蒸发比例越高"></svg>
 <figcaption>夏季，用月平均流场估算。约 150 km 的单格里，只有 4% 的穿入水汽落成雨。到 1500 km 的东亚箱是 44%，箱内蒸发占水汽来源 16%。站点格的收支基本只反映“来了什么水”，所以不能只看那一格。</figcaption></figure>
 <p>解决办法是分四步，前三步在站点上做，第四步向外扩箱子。下面是两个洞穴站的实际结果，MH−PI，单位 ‰。</p>
-<figure><svg id="wf" viewBox="0 0 760 300" role="img" aria-label="Heshang 和 Dongge 两站 MH 减 PI 的分解"></svg>
-<figcaption>灰条是总变化。Heshang −0.77 ± 0.55，显著。Dongge −0.32 ± 0.70，不显著。水汽和雨减水汽两项加起来等于逐月 δ。</figcaption></figure>
+<figure><svg id="wf" viewBox="0 0 760 390" role="img" aria-label="Heshang 和 Dongge 两站 MH 减 PI 的分解"></svg>
+<figcaption>灰条是总变化。Heshang −0.77 ± 0.55，显著。Dongge −0.32 ± 0.70，不显著。总变化 = 季节权重 + 逐月 δ + 交叉项（约 −0.05，图中没画）。逐月 δ 可以用两种方式再拆：雨型比例加雨型 δ（②），或水汽加雨减水汽（③）。两种拆法分的是同一个量，所以不能相加。</figcaption></figure>
 <div class="tw"><table><thead><tr><th>步骤</th><th>问的问题</th><th>用到的量</th><th class="r">Heshang</th><th class="r">Dongge</th></tr></thead><tbody>
 <tr><td>① 季节</td><td>雨季比重变了吗</td><td>PRECT_H2_16O、PRECT_H2_18O 的月值</td><td class="r">+0.01</td><td class="r">−0.12</td></tr>
 <tr><td>② 雨型</td><td>雨型比例变了吗</td><td>PRECZM、PRECSH、PRECL 的同位素</td><td class="r">+0.06</td><td class="r">+0.03</td></tr>
@@ -314,10 +314,10 @@ document.getElementById('mental').innerHTML=LED.map(r=>{const m=r[3]*(r[5]-DV)/W
  el(s,'text',{x:X(148),y:Y(4)-12,'text-anchor':'start',class:'tn'},'4%');})();
 
 // Two site decomposition
-(function(){const s=document.getElementById('wf'),rows=['总变化','① 季节权重','① 逐月 δ','③ 其中水汽','③ 雨减水汽'],H=[-.77,.01,-.72,-.72,0],D=[-.32,-.12,-.16,-.53,.37],c=['var(--ink3)',C.mic,C.zm,C.tr,C.vd],T=34,rh=46;
+(function(){const s=document.getElementById('wf'),rows=['总变化','① 季节权重','① 逐月 δ','② 雨型比例','② 雨型 δ','③ 水汽','③ 雨减水汽'],H=[-.77,.01,-.72,.06,-.83,-.72,0],D=[-.32,-.12,-.16,.03,-.19,-.53,.37],c=['var(--ink3)',C.mic,C.zm,C.uw,C.mac,C.tr,C.vd],T=34,rh=46,N=rows.length;
  [['Heshang',H,120,410],['Dongge',D,450,740]].forEach(([n,v,L,R],k)=>{const X=x=>L+(x+1)/1.5*(R-L);
   el(s,'text',{x:L,y:18,class:'t','font-weight':'700'},n);
-  [-1,-.5,0,.5].forEach(t=>{el(s,'line',{x1:X(t),x2:X(t),y1:T,y2:T+rh*5,class:t===0?'ax0':'ax'});el(s,'text',{x:X(t),y:T+rh*5+16,'text-anchor':'middle',class:'t2'},t===0?'0':fmt(t,1));});
+  [-1,-.5,0,.5].forEach(t=>{el(s,'line',{x1:X(t),x2:X(t),y1:T,y2:T+rh*N,class:t===0?'ax0':'ax'});el(s,'text',{x:X(t),y:T+rh*N+16,'text-anchor':'middle',class:'t2'},t===0?'0':fmt(t,1));});
   v.forEach((x,i)=>{const y=T+i*rh;if(!k)el(s,'text',{x:L-12,y:y+26,'text-anchor':'end',class:'t'},rows[i]);ybar(s,Math.min(X(0),X(x)),Math.abs(X(x)-X(0)),y+10,y+34,c[i],`${n} ${rows[i]} ${x===0?'0.00':fmt(x)}‰`);
    el(s,'text',{x:x<0?X(x)-6:X(x)+6,y:y+27,'text-anchor':x<0?'end':'start',class:'tn'},x===0?'0.00':fmt(x));});});})();
 
